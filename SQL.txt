@@ -1,0 +1,60 @@
+{\rtf1\ansi\ansicpg1251\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 /* Query 1 - query used for first insight */\
+SELECT\
+  m.Name,\
+  SUM(il.Quantity)\
+FROM InvoiceLine il\
+JOIN Track\
+  ON il.TrackId = Track.TrackId\
+JOIN MediaType m\
+  ON Track.MediaTypeId = m.MediaTypeId\
+GROUP BY 1\
+ORDER BY 2 DESC;\
+\
+/* Query 2 - query used for second insight */\
+SELECT\
+  a.Name,\
+  SUM(il.Quantity) Quantity\
+FROM InvoiceLine il\
+JOIN Track\
+  ON il.Trackid = Track.TrackId\
+JOIN Album\
+  ON Album.AlbumId = Track.AlbumId\
+JOIN Artist a\
+  ON a.Artistid = Album.Artistid\
+GROUP BY 1\
+ORDER BY 2 DESC\
+LIMIT 10;\
+\
+/* Query 3 - query used for third insight */\
+SELECT\
+  g.Name Genre,\
+  SUM(il.Quantity) Quantity\
+FROM InvoiceLine il\
+JOIN Track\
+  ON Track.TrackId = il.TrackId\
+JOIN Genre g\
+  ON g.genreid = Track.GenreId\
+GROUP BY 1\
+ORDER BY 2 DESC\
+LIMIT 5;\
+\
+/* Query 4 - query used for fourth insight */\
+SELECT\
+  p.Name Name_of_playlist,\
+  SUM(il.Quantity) Quantity\
+FROM Playlist p\
+JOIN PlaylistTrack\
+  ON p.PlaylistId = PlaylistTrack.PlaylistId\
+JOIN Track\
+  ON Track.TrackId = PlaylistTrack.TrackId\
+JOIN InvoiceLine il\
+  ON il.TrackId = Track.TrackId\
+GROUP BY 1\
+ORDER BY 2 DESC;}
